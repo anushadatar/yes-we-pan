@@ -28,7 +28,7 @@ int servoBpos = 0;
 int servoAmin = 0;
 int servoAmax = 180;
 int servoBmin = 0;
-int servoBmax = 0;
+int servoBmax = 180;
 
 void setup() {
   // Kick off Serial. Be sure to match baudrate on python script.
@@ -69,11 +69,15 @@ void loop() {
       // move on to the next angle because we can try to interpolate in post.
       if (measure.RangeStatus != 4) {
         // Sends appropriate values over serial.
+        Serial.print("Distance: ");
         Serial.print(measure.RangeMilliMeter);
+        Serial.print(" ");
         Serial.print(servoApos);
-        Serial.print(servoBpos + "\n");
+        Serial.print(" ");
+        Serial.print(servoBpos);
+        Serial.print("\n");
       } 
-  }  
+    }  
   }
   // Continue for multiple scans if appropriate.
   delay(100);
