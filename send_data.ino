@@ -23,12 +23,11 @@ int servoApin = 9;
 int servoBpin = 10;
 int servoApos = 0; 
 int servoBpos = 0;
-// TODO Empirically figure out these mins and maxes based on the configuration
-// of the mechanical setup of the pan/tilt mechanism.
-int servoAmin = 0;
-int servoAmax = 180;
-int servoBmin = 0;
-int servoBmax = 180;
+
+int servoAmin = 45;
+int servoAmax = 135;
+int servoBmin = 45;
+int servoBmax = 100;
 
 void setup() {
   // Kick off Serial. Be sure to match baudrate on python script.
@@ -38,14 +37,16 @@ void setup() {
   }
   // Make sure that the sensor boots before moving any motors.
   if (!lox.begin()) {
-    Serial.println(F("Failed to boot VL53L0X"));
+    // DEBUG
+    // Serial.println(F("Failed to boot VL53L0X"));
     while(1);
   }
-  Serial.println(F("Booted sensor.")); 
+  // DEBUG
+  // Serial.println(F("Booted sensor.")); 
   // Declare servos.
   servoA.attach(servoApin);
   servoB.attach(servoBpin); 
-  // Confirm that the servos are homed in the appropriate location.
+  // Confirm that the servos go home.
   zero_servos();
 }
 
@@ -57,7 +58,6 @@ void loop() {
    * [DISTANCE_READ (mm), SERVOA_ANGLE, SERVOB_ANGLE]
    */
   VL53L0X_RangingMeasurementData_t measure;
-  lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
 
   for (servoApos = servoAmin; servoApos <= servoAmax; servoApos += 1) {
     servoA.write(servoApos);        
@@ -67,6 +67,7 @@ void loop() {
       delay(15);
       // Send data from the sensor if there is no phase failure. Otherwise, just
       // move on to the next angle because we can try to interpolate in post.
+      lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
       if (measure.RangeStatus != 4) {
         // Sends appropriate values over serial.
         Serial.print("Distance: ");
@@ -80,7 +81,7 @@ void loop() {
     }  
   }
   // Continue for multiple scans if appropriate.
-  delay(100);
+  delay(500);
   zero_servos();
   delay(100);
 }
@@ -93,5 +94,6 @@ void zero_servos() {
   delay(15);
   servoB.write(servoBmin);
   delay(15);
+  delay(200);
 }
 
