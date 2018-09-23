@@ -14,7 +14,7 @@ from utilities import *
 cartesian_points_list = []
 
 # Import test dataset and read through it as if it were serial data.
-points = open("test_dataset.txt", "r")
+points = open("../datasets/mug.txt", "r")
 point_list = points.readlines()
 for point in point_list:
     point.strip('\n')
@@ -23,6 +23,12 @@ for point in point_list:
 	    index.strip()
     # Generate cartesian list to provide to shared plotting function.
     cartesian = spherical_to_cartesian(point_list)
-    cartesian_points_list.append(cartesian)
+    # Remove points that are are extremely far away to make the plot readable.
+    points_valid = True
+    for element in cartesian:
+        if abs(element) > 500:
+            points_valid = False
+    if points_valid:
+        cartesian_points_list.append(cartesian)
 
 create_three_dimensional_plot(cartesian_points_list)

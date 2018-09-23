@@ -18,17 +18,16 @@ def spherical_to_cartesian(point):
     """                                                                         
     Converts spherical point from pan/tilt mechanism into cartesian points.        
     """                                                                         
-    distance = int(point[0])       
+    distance = 8.6*int(point[0]) + 80
     # Our current angles are from 60 degrees to 120 degrees. Shift those 
     # to be between -60 and 60 degrees.
     theta = int(point[1]) - 120
     # Subtract 120 + 90 from this one to account for reversal of azimuthal 
     # direction because of existing sensor orientation.
-    phi = int(point[2]) - 210 
-    # Spherical coordinate formula, I think. 
-    # TODO Scan a known surface so that we can figure out if it's flipped.
-    x = -distance*math.sin(math.radians(phi))*math.cos(math.radians(theta))      
-    y = -distance*math.sin(math.radians(phi))*math.sin(math.radians(theta))
+    phi = int(point[2]) - 120
+    # Spherical coordinate formula. 
+    x = distance*math.sin(math.radians(phi + 180))*math.cos(math.radians(theta))      
+    y = -distance*math.sin(math.radians(phi + 180))*math.sin(math.radians(theta))
     z = distance*math.cos(phi)                                                 
     cartesian_point = [x, y, z]                                                 
     return cartesian_point                                                      
