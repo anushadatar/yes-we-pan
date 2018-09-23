@@ -30,5 +30,4 @@ for point in point_list:
             points_valid = False
     if points_valid:
         cartesian_points_list.append(cartesian)
-
 create_three_dimensional_plot(cartesian_points_list)
