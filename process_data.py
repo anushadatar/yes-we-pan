@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # Quinn Kelley and Anusha Datar
 # Principles of Engineering Lab 2
+
+from utilities import *
 import serial
 import time
 
@@ -29,20 +31,3 @@ while True:
         # Ignore weird serial port errors.
         time.sleep(1);
         continue
-
-
-
-
-def spherical_to_cartesian(point):
-    """
-    Converts spherical points from pan/tilt mechanism
-    """
-    distance = point[0]
-    theta = point[1]
-    phi = point[2]
-    x = distance*math.sin(math.radians(phi))*math.cos(math.radians(theta))
-    y = distance*math.sin(math.radians(phi))*math.sin(math.radians(theta))
-    z = distance*math.cos(phi)
-    cartesian_point = [x, y, z]
-    return cartesian_point
-
