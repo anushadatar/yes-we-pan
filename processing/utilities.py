@@ -1,5 +1,3 @@
-# Quinn Kelley and Anusha Datar
-# Principles of Engineering Lab 2
 # Utilities file.
 """
 Because of shared functions with File IO and serial-based communication, this
@@ -55,17 +53,20 @@ def create_three_dimensional_plot(points):
         x_values.append(element[0])                                             
         y_values.append(element[1])                                             
         z_values.append(element[2]) 
-    # Use the matplotlib 3D plot feature.                                            
-    ax.scatter(xs=x_values, ys=y_values, zs=z_values)                           
-    # TODO Add axis labels and title. Create a plot and add it.
+    # Use the matplotlib 3D plot feature.
+    ax.scatter(xs=x_values, ys=y_values, zs=z_values)                  
+    ax.set_title("3D Scan Surface Plot.")                                       
+    ax.set_xlabel("X (mm)")                                                     
+    ax.set_ylabel("Y (mm)")                                                     
+    ax.set_zlabel("Z (mm)")     
     plt.show()
 
-def create_three_dimensional_heatmap(points):
+def create_three_dimensional_surface(points):
     """                                                                         
     Creates three dimensional visualization of data collected from scan.        
                                                                                 
     points : List of lists where each sub-list is a cartesian point             
-             [X, Y, Z]                                                          
+             [X, Y, Z]                                       
     """                                                                         
     fig = plt.figure()                                                          
     ax = fig.add_subplot(111, projection='3d')                                  
@@ -78,7 +79,8 @@ def create_three_dimensional_heatmap(points):
         z_values.append(element[2])                                             
     # Use the matplotlib 3D plot feature.
     ax.plot_trisurf(x_values, y_values, z_values)
+    ax.set_title("3D Scan Surface Plot.")
+    ax.set_xlabel("X (mm)")
+    ax.set_ylabel("Y (mm)")
+    ax.set_zlabel("Z (mm)")
     plt.show()
-
-    
-
